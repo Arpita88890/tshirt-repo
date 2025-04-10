@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>T-Shirt Dashboard</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <h1>T-Shirt Inventory</h1>
+  <a href="/logout">Logout</a>
+
+  <table>
+    <tr>
+      <th>Type</th>
+      <th>Fabric Type</th>
+      <th>Color</th>
+      <th>Size</th>
+      <th>Sold To</th>
+      <th>Total</th>
+      <th>Sold</th>
+      <th>In Stock</th>
+      <th>Actions</th>
+    </tr>
+    <% tshirts.forEach(t => { %>
+      <tr>
+        <td><%= t.type %></td>
+        <td><%= t.fabric %></td>
+        <td><%= t.color %></td>
+        <td><%= t.size %></td>
+        <td><%= t.soldTo %></td>
+        <td><%= t.total %></td>
+        <td><%= t.sold %></td>
+        <td><%= t.total - t.sold %></td>
+        <td>
+          <form action="/update/<%= t._id %>" method="POST" class="inline-form">
+            <input type="number" name="total" value="<%= t.total %>" required>
+            <input type="number" name="sold" value="<%= t.sold %>" required>
+            <button type="submit">Update</button>
+          </form>
+          <a href="/delete/<%= t._id %>" onclick="return confirm('Delete this item?')">Delete</a>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+
+  <h2>Add New T-Shirt</h2>
+  <form method="POST" action="/add">
+    <!-- Type and Color side by side -->
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <label for="fabric">Select Type:</label>
+    <select id="type" name="type" style="width: 200px; padding: 5px; font-size: 16px;">
+      <option value="">-- Select Type --</option>
+      <option value="OVERSIZED">OVERSIZED</option>
+      <option value="REGULAR">REGULAR</option>
+      </select>
+
+      <label for="color">Select Color:</label>
+      <select id="color" name="color" style="width: 200px; padding: 5px; font-size: 16px;">
+        <option value="RED" style="background-color: #d32f2f; color: white;">RED</option>
+        <option value="M. GREY" style="background-color: #90a4ae; color: black;">M. GREY</option>
+        <option value="LAVENDER" style="background-color: #e6e6fa; color: black;">LAVENDER</option>
+        <option value="PISTA" style="background-color: #c5e1a5; color: black;">PISTA</option>
+        <option value="ONION PINK" style="background-color: #f8bbd0; color: black;">ONION PINK</option>
+        <option value="MUSTARD" style="background-color: #fdd835; color: black;">MUSTARD</option>
+        <option value="PEACH" style="background-color: #ffe0b2; color: black;">PEACH</option>
+        <option value="WHITE" style="background-color: #ffffff; color: black;">WHITE</option>
+        <option value="WINE" style="background-color: #5e1833; color: white;">WINE</option>
+        <option value="OLIVE" style="background-color: #808000; color: white;">OLIVE</option>
+        <option value="COFFEE" style="background-color: #4e342e; color: white;">COFFEE</option>
+        <option value="D. GREY" style="background-color: #424242; color: white;">D. GREY</option>
+        <option value="NAVY MILLANGE" style="background-color: #3949ab; color: white;">NAVY MILLANGE</option>
+        <option value="AIRFORCE" style="background-color: #5472d3; color: white;">AIRFORCE</option>
+        <option value="NAVY" style="background-color: #0d47a1; color: white;">NAVY</option>
+        <option value="BLACK" style="background-color: #000000; color: white;">BLACK</option>
+      </select>
+    </div>
+
+    <!-- Fabric Dropdown -->
+    <label for="fabric">Select Fabric:</label>
+    <select id="fabric" name="fabric" style="width: 200px; padding: 5px; font-size: 16px;">
+      <option value="">-- Select Fabric --</option>
+      <option value="COTTON">COTTON</option>
+      <option value="POLYESTER">POLYESTER</option>
+      <option value="LYCRA">LYCRA</option>
+      <option value="COTTON BLEND">COTTON BLEND</option>
+      <option value="NYLON">NYLON</option>
+      <option value="DENIM">DENIM</option>
+      <option value="JERSEY">JERSEY</option>
+    </select>
+
+    <!-- Size, Total, Sold -->
+    <select name="size" required>
+      <option value="M">M</option>
+      <option value="L">L</option>
+      <option value="XL">XL</option>
+      <option value="XXL">XXL</option>
+    </select>
+    <input type="text" name="soldTo" placeholder="Sold To (optional)"required>
+
+    <input type="number" name="total" placeholder="Total" required>
+    <input type="number" name="sold" placeholder="Sold" required>
+
+    <button type="submit">Add</button>
+  </form>
+
+  <div class="export-buttons">
+    <!-- <a href="/export/csv" class="button">Download CSV</a> -->
+    <a href="/export/pdf">Download PDF</a>
+  </div>
+</body>
+</html>
