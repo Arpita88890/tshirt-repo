@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kids T-shirt Inventory</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header a {
+      margin-left: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px auto;
+      font-size: 16px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 4px 8px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .actions button {
+      margin-right: 5px;
+      padding: 5px 10px;
+    }
+    .form-section {
+      margin-top: 20px;
+    }
+    /* ader row */ */
+thead th {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  background-color: #1976d2;
+  color: #fff;
+  font-weight: normal;
+}
+
+/* Reduce spacing between rows */
+tbody tr {
+  height: auto;
+}
+
+/* Optional: shrink the “Actions” column */
+.actions button {
+  padding: 4px 6px;
+  font-size: 12px;
+}
+
+/* Remove extra margin around the form and headings */
+h1, h2 {
+  margin: 10px 0;
+}
+
+form, .export-buttons {
+  margin: 10px 0;
+}
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h2>Kids T-shirt Inventory (Size 28)</h2>
+    <div>
+      <a href="/"><button type="button">Main Inventory</button></a>
+      <a href="/logout"><button type="button">logout</button></a>
+    </div>
+  </div>
+
+  <form action="/kids/add" method="POST" class="form-section">
+    <input type="text" name="type" placeholder="Type" required /> <label for="fabric">Select Fabric:</label>
+    <select id="fabric" name="fabric" style="width: 200px; padding: 5px; font-size: 16px;">
+      <option value="">-- Select Fabric --</option>
+      <option value="FRENCH TERRY 240gsm">FRENCH TERRY 240gsm</option>
+      <option value="SINKER COTTON 220gsm">SINKER COTTON 220gsm</option>
+      <option value="AIRJET SINKER 180gsm">AIRJET SINKER 180gsm</option>
+      <option value="SINKER COTTON 180gsm">SINKER COTTON 180gsm</option>
+      <!-- <option value="NYLON">NYLON</option>
+      <option value="DENIM">DENIM</option>
+      <option value="JERSEY">JERSEY</option> -->
+    </select> 
+    <label for="color">Select Color:</label>
+    <select id="color" name="color" style="width: 200px; padding: 5px; font-size: 16px;">
+      <option value="RED" style="background-color: #d32f2f; color: white;">RED</option>
+      <option value="M. GREY" style="background-color: #90a4ae; color: black;">M. GREY</option>
+      <option value="LAVENDER" style="background-color: #e6e6fa; color: black;">LAVENDER</option>
+      <option value="PISTA" style="background-color: #c5e1a5; color: black;">PISTA</option>
+      <option value="ONION PINK" style="background-color: #f8bbd0; color: black;">ONION PINK</option>
+      <option value="MUSTARD" style="background-color: #fdd835; color: black;">MUSTARD</option>
+      <option value="PEACH" style="background-color: #ffe0b2; color: black;">PEACH</option>
+      <option value="WHITE" style="background-color: #ffffff; color: black;">WHITE</option>
+      <option value="WINE" style="background-color: #5e1833; color: white;">WINE</option>
+      <option value="OLIVE" style="background-color: #808000; color: white;">OLIVE</option>
+      <option value="COFFEE" style="background-color: #4e342e; color: white;">COFFEE</option>
+      <option value="D. GREY" style="background-color: #424242; color: white;">D. GREY</option>
+      <option value="NAVY MILLANGE" style="background-color: #3949ab; color: white;">NAVY MILLANGE</option>
+      <option value="AIRFORCE" style="background-color: #5472d3; color: white;">AIRFORCE</option>
+      <option value="NAVY" style="background-color: #0d47a1; color: white;">NAVY</option>
+      <option value="BLACK" style="background-color: #000000; color: white;">BLACK</option>
+    </select>
+  </div>
+    <input type="text" name="size" value="28" readonly />
+    <input type="number" name="total" placeholder="Total" required />
+    <input type="number" name="sold" placeholder="Sold" required />
+    <input type="text" name="soldTo" placeholder="Sold To" />
+    <button type="submit">Add T-shirt</button>
+    <a href="/kids/export/pdf"><button type="button">Download PDF</button></a>
+  </form>
+
+  
+       
+  <table>
+    <tr>
+      <th>Type</th>
+      <th>Fabric Type</th>
+      <th>Color</th>
+      <th>Size</th>
+      <th>Sold To</th>
+      <th>Total</th>
+      <th>Sold</th>
+      <th>In Stock</th>
+      <th>Actions</th>
+    </tr>
+    <% tshirts.forEach(t => { %>
+      <tr>
+        <td><%= t.type %></td>
+        <td><%= t.fabric %></td>
+        <td><%= t.color %></td>
+        <td><%= t.size %></td>
+        <td><%= t.soldTo %></td>
+        <td><%= t.total %></td>
+        <td><%= t.sold %></td>
+        <td><%= t.total - t.sold %></td>
+        <td>
+          <form action="/kids/update/<%= t._id %>" method="POST" class="inline-form">
+            <input type="number" name="total" value="<%= t.total %>" required>
+            <input type="number" name="sold" value="<%= t.sold %>" required>
+            <button type="submit">Update</button>
+          </form>
+          <a href="/kids/delete/<%= t._id %>" method="GET" style="display:inline;"
+            onclick="return confirm('Delete this item?')">Delete</a>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+
+ 
+</body>
+</html>

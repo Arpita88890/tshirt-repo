@@ -6,41 +6,9 @@
 </head>
 <body>
   <h1>T-Shirt Inventory</h1>
-  <a href="/logout">Logout</a>
+<a href="/logout"><button type="button">logout</button></a>
+  <a href="/kids"><button type="button">Kids Inventory</button></a>
 
-  <table>
-    <tr>
-      <th>Type</th>
-      <th>Fabric Type</th>
-      <th>Color</th>
-      <th>Size</th>
-      <th>Sold To</th>
-      <th>Total</th>
-      <th>Sold</th>
-      <th>In Stock</th>
-      <th>Actions</th>
-    </tr>
-    <% tshirts.forEach(t => { %>
-      <tr>
-        <td><%= t.type %></td>
-        <td><%= t.fabric %></td>
-        <td><%= t.color %></td>
-        <td><%= t.size %></td>
-        <td><%= t.soldTo %></td>
-        <td><%= t.total %></td>
-        <td><%= t.sold %></td>
-        <td><%= t.total - t.sold %></td>
-        <td>
-          <form action="/update/<%= t._id %>" method="POST" class="inline-form">
-            <input type="number" name="total" value="<%= t.total %>" required>
-            <input type="number" name="sold" value="<%= t.sold %>" required>
-            <button type="submit">Update</button>
-          </form>
-          <a href="/delete/<%= t._id %>" onclick="return confirm('Delete this item?')">Delete</a>
-        </td>
-      </tr>
-    <% }) %>
-  </table>
 
   <h2>Add New T-Shirt</h2>
   <form method="POST" action="/add">
@@ -78,13 +46,12 @@
     <label for="fabric">Select Fabric:</label>
     <select id="fabric" name="fabric" style="width: 200px; padding: 5px; font-size: 16px;">
       <option value="">-- Select Fabric --</option>
-      <option value="COTTON">COTTON</option>
-      <option value="POLYESTER">POLYESTER</option>
-      <option value="LYCRA">LYCRA</option>
-      <option value="COTTON BLEND">COTTON BLEND</option>
-      <option value="NYLON">NYLON</option>
-      <option value="DENIM">DENIM</option>
-      <option value="JERSEY">JERSEY</option>
+      <option value="FRENCH TERRY 240gsm">FRENCH TERRY 240gsm</option>
+      <option value="SINKER COTTON 220gsm">SINKER COTTON 220gsm</option>
+      <option value="AIRJET SINKER 180gsm">AIRJET SINKER 180gsm</option>
+      <option value="SINKER COTTON 180gsm">SINKER COTTON 180gsm</option>
+      <!-- <option value="DENIM">DENIM</option>
+      <option value="JERSEY">JERSEY</option> -->
     </select>
 
     <!-- Size, Total, Sold -->
@@ -100,11 +67,50 @@
     <input type="number" name="sold" placeholder="Sold" required>
 
     <button type="submit">Add</button>
+   
+      <!-- <a href="/export/csv" class="button">Download CSV</a> -->
+      <a href="/export/pdf"><button type="button">Download PDF</button></a>
+    </div>
+    
   </form>
 
   <div class="export-buttons">
     <!-- <a href="/export/csv" class="button">Download CSV</a> -->
     <a href="/export/pdf">Download PDF</a>
   </div>
+  
+  <table>
+    <tr>
+      <th>Type</th>
+      <th>Fabric Type</th>
+      <th>Color</th>
+      <th>Size</th>
+      <th>Sold To</th>
+      <th>Total</th>
+      <th>Sold</th>
+      <th>In Stock</th>
+      <th>Actions</th>
+    </tr>
+    <% tshirts.forEach(t => { %>
+      <tr>
+        <td><%= t.type %></td>
+        <td><%= t.fabric %></td>
+        <td><%= t.color %></td>
+        <td><%= t.size %></td>
+        <td><%= t.soldTo %></td>
+        <td><%= t.total %></td>
+        <td><%= t.sold %></td>
+        <td><%= t.total - t.sold %></td>
+        <td>
+          <form action="/update/<%= t._id %>" method="POST" class="inline-form">
+            <input type="number" name="total" value="<%= t.total %>" required>
+            <input type="number" name="sold" value="<%= t.sold %>" required>
+            <button type="submit">Update</button>
+          </form>
+          <a href="/delete/<%= t._id %>" onclick="return confirm('Delete this item?')">Delete</a>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
 </body>
 </html>

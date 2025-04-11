@@ -19,5 +19,7 @@ app.use(express.static('public'));
 // Routes
 const routes = require('./routes/tshirtRoutes');
 app.use('/', routes);
+const kidsRoutes = require('./routes/kidsRoutes');
+app.use('/kids', kidsRoutes);
 
 app.listen(3000, () => console.log('Server started at http://localhost:3000'));
