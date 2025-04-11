@@ -37,6 +37,5 @@ app.use('/kids', kidsRoutes);
 
 // app.listen(3000, () => console.log('Server started at http://localhost:3000'));
 app.listen(PORT, () => {
-  console.log('Server running on port '${PORT});
+  console.log(`Server running on port ${PORT}`);
 });
-git remote add origin git@github.com:Arpita88890/tshirt-repo.    
