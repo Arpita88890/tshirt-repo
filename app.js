@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
+require('dotenv').config();
+mongoose.connect(process.env.MONGO_URI)
 
 const app = express();
 mongoose.connect('mongodb://localhost/tshirt_inventory', {
